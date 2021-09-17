@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Repository.EFCore.Repositories
 {
-    public class RepositoryBase<T> : IRepository<T> where T : class
+    public class RepositoryBase<T> : IReadRepository<T>, IRepository<T> where T : class
     {
         private readonly ApplicationDbContext Context;
         public RepositoryBase(ApplicationDbContext context)
@@ -48,19 +48,29 @@ namespace Repository.EFCore.Repositories
             return Task.FromResult(Context.SaveChanges() != 0);
         }
 
+        public Task<List<T>> GetList(Expression<Func<T, bool>> criteria = null, Func<T, object> orderBy = null, Expression<Func<T, object>> includes = null, int skip = 0, int take = 20, bool enableTracking = false, CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult(Context.Set<T>().Include(includes).Where(criteria).OrderBy(orderBy).Take(take).Skip(skip).ToList());
+        }
+
+        public Task<T> GetSingleOrDefault(Expression<Func<T, bool>> criteria = null, Func<T, object> orderBy = null, Expression<Func<T, object>> includes = null, bool enableTracking = false, CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult(Context.Set<T>().AsNoTracking().Include(includes).FirstOrDefault(criteria));
+        }
+
         public Task<T> Retrieve(Expression<Func<T, bool>> criteria, Expression<Func<T, object>> includes = null, bool noTracking = false, CancellationToken cancellationToken = default)
         {
             if (includes != null)
             {
                 if (noTracking)
-                    return Task.FromResult(Context.Set<T>().AsNoTracking().AsNoTracking().Include(includes).FirstOrDefault(criteria));
+                    return Task.FromResult(Context.Set<T>().AsNoTracking().Include(includes).FirstOrDefault(criteria));
                 else
                     return Task.FromResult(Context.Set<T>().Include(includes).FirstOrDefault(criteria));
             }
             else
             {
                 if (noTracking)
-                    return Task.FromResult(Context.Set<T>().AsNoTracking().AsNoTracking().FirstOrDefault(criteria));
+                    return Task.FromResult(Context.Set<T>().AsNoTracking().FirstOrDefault(criteria));
                 else
                     return Task.FromResult(Context.Set<T>().Include(includes).FirstOrDefault(criteria));
             }
@@ -72,14 +82,14 @@ namespace Repository.EFCore.Repositories
             if (includes != null)
             {
                 if (noTracking)
-                    Results = Task.FromResult(Context.Set<T>().AsNoTracking().AsNoTracking().Include(includes).Where(criteria).ToList());
+                    Results = Task.FromResult(Context.Set<T>().AsNoTracking().Include(includes).Where(criteria).ToList());
                 else
                     Results = Task.FromResult(Context.Set<T>().Include(includes).Where(criteria).ToList());
             }
             else
             {
                 if (noTracking)
-                    Results = Task.FromResult(Context.Set<T>().AsNoTracking().AsNoTracking().Where(criteria).ToList());
+                    Results = Task.FromResult(Context.Set<T>().AsNoTracking().Where(criteria).ToList());
                 else
                     Results = Task.FromResult(Context.Set<T>().Where(criteria).ToList());
             }
