@@ -31,3 +31,7 @@ Those projects will never know which database they are consuming.
 - **Entity Framework Core**
 - **Fluent Validation**
 - **Generic Repository**
+
+---
+
+![Your Repository's Stats](https://github-readme-stats.vercel.app/api/top-langs/?username=kenllyacosta)
