@@ -31,7 +31,7 @@ namespace Application.Queries.Products
         public Task<List<Product>> Handle(GetProductsQuery request, CancellationToken cancellationToken)
         {
             //Aquí lanzamos  las excepciones
-            return Repository.Retrieves(request.Expression, request.Includes);
+            return Repository.GetList(request.Expression, request.Includes, false, cancellationToken);
         }
     }
 }

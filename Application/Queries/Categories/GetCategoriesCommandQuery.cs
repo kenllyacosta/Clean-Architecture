@@ -30,7 +30,7 @@ namespace Application.Queries.Categories
 
         public Task<List<Category>> Handle(GetCategoriesCommandQuery request, CancellationToken cancellationToken)
         {
-            return Repository.Retrieves(request.Expression, request.Includes);
+            return Repository.GetList(request.Expression, request.Includes, false, cancellationToken);
         }
     }
 }

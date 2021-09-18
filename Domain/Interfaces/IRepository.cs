@@ -18,8 +18,9 @@ namespace Domain.Interfaces
         Task<bool> Create(IEnumerable<T> entities, CancellationToken cancellationToken = default);
 
         //R
-        Task<T> Retrieve(Expression<Func<T, bool>> criteria, Expression<Func<T, object>> includes = null, bool noTracking = false, CancellationToken cancellationToken = default);
-        Task<List<T>> Retrieves(Expression<Func<T, bool>> criteria, Expression<Func<T, object>> includes = null, bool noTracking = false, CancellationToken cancellationToken = default);
+        Task<T> GetFirstOrDefault(Expression<Func<T, bool>> criteria, Expression<Func<T, object>> includes = null, bool enableTracking = false, CancellationToken cancellationToken = default);
+        Task<List<T>> GetList(Expression<Func<T, bool>> criteria, Expression<Func<T, object>> includes = null, bool enableTracking = false, CancellationToken cancellationToken = default);
+        Task<List<T>> GetList(Expression<Func<T, bool>> criteria, Expression<Func<T, object>> includes = null, bool enableTracking = false, Func<T, object> orderBy = null, int skip = 0, int take = 20, CancellationToken cancellationToken = default);
 
         //U
         Task<bool> Update(T entity, CancellationToken cancellationToken = default);

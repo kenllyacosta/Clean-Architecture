@@ -29,7 +29,7 @@ namespace Application.Queries.Products
         public Task<Product> Handle(GetProductQuery request, CancellationToken cancellationToken)
         {
             //Aquí lanzamos  las excepciones
-            return Repository.Retrieve(request.Expression, request.Includes);
+            return Repository.GetFirstOrDefault(request.Expression, request.Includes);
         }
     }
 }
