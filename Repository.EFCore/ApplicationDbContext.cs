@@ -17,7 +17,7 @@ namespace Repository.EFCore
 
     //Esta clase la agregamos para ejecutar las migraciones de Entity Framework Core
     /// <summary>
-    /// 1. Instalar Microsoft.EntityFrameworkCore.Tools
+    /// 1. Instalar Microsoft.EntityFrameworkCore.Tools y Microsoft.EntityFrameworkCore.SqlServer
     /// 2. Add-Migration NombreDeLaMigración -s Repository.EFCore -p Repository.EFCore -c ApplicationDbcontext -o Data\Migrations
     /// 3. Update-Database -s Repository.EFCore -p Repository.EFCore
     /// </summary>
