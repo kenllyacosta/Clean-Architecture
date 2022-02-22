@@ -100,7 +100,7 @@ namespace Repository.EFCore.Repositories
 
         public Task<bool> Update(Expression<Func<T, bool>> criteria, string propertyName, object value, CancellationToken cancellationToken = default)
         {
-            Context.Entry(Context.Set<T>().AsNoTracking().FirstOrDefault(criteria)).Property(propertyName).CurrentValue = value;
+            Context.Entry(Context.Set<T>().FirstOrDefault(criteria)).Property(propertyName).CurrentValue = value;
             return Task.FromResult(Context.SaveChanges() != 0);
         }
 
